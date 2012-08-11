@@ -1,0 +1,81 @@
+/* Jumbotrons
+ * -------------------------------------------------- */
+.jumbotron {
+   position: relative;
+}
+.jumbotron h1 {
+   margin-bottom: 9px;
+   font-size: 81px;
+   font-weight: bold;
+   letter-spacing: -1px;
+   line-height: 1;
+   margin-top:30px;
+}
+.jumbotron p {
+   margin-bottom: 18px;
+   font-weight: 300;
+}
+.jumbotron .btn-large {
+   font-size: 20px;
+   font-weight: normal;
+   padding: 14px 24px;
+   margin-right: 10px;
+   -webkit-border-radius: 6px;
+   -moz-border-radius: 6px;
+   border-radius: 6px;
+}
+.jumbotron .btn-large small {
+   font-size: 14px;
+}
+
+.center {
+  text-align: center;
+}
+
+.margin_top {
+  margin-top: 30px;
+}
+
+.inline {
+  display: inline-block;
+}
+
+.float_right {
+  float: right;
+}
+
+.shadow {
+  -moz-box-shadow: 5px 5px 5px #660087;
+  -webkit-box-shadow: 5px 5px 5px #660087;
+  box-shadow: 5px 5px 5px #660087;
+}
+.box {
+  height: 500px;
+}
+
+#search {
+  float:left;
+  font-size:30px;
+  line-height:50px;
+  height:50px;
+  margin-top:20px;
+  margin-bottom:60px;
+}
+#search_btn {
+  float:left;
+  margin-left:0
+  font-size:30px;
+  line-height:50px;
+  height:50px;
+}
+
+.left {
+  float:left;
+  display:table;
+}
+
+.right {
+  float:left;
+  display:table;
+  margin-left:20px;
+}

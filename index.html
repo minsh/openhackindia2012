@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>OpenHackIndia2012</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Le styles -->
+    <link href="./css/bootstrap.css" rel="stylesheet">
+    <link href="./css/styles.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="span12 center jumbotron margin_top">
+          <h1 style="color:#660087;">#OpenHackIndia2012</h1>    
+        </div>
+      </div>
+      <div id="search_entry" class="row">
+      </div>
+      <div id="results_entry" class="row">
+      </div>
+    </div>
+
+    <script id="search_view_template" type="text/template">
+      <div class="offset2 span9 margin_top">
+        <form id="search_form" class="form-horizontal form-search">
+          <input id="search" type="text" class="span8 search-query" placeholder="Instantly search hackers">
+        </form>
+      </div>
+    </script>
+    <script id="result_view_template" type="text/template">
+      <div class="span12 margin_top">
+        <div class="left">
+          <img width="150px" src="<%=photo_url%>" class="shadow">
+        </div>
+        <div class="right">
+          <h1><%=full_name%></h1>
+        </div>
+      </div>
+    </script>
+    <script src="./js/vendor/underscore.js"></script>
+    <script src="./js/vendor/jquery.js"></script>
+    <script src="./js/vendor/backbone.js"></script>
+    <script src="./js/common.js"></script>
+    <script src="./js/views/search.js"></script>
+    <script src="./js/app.js"></script>
+  </body>
+</html>
