@@ -51,11 +51,15 @@
 
       function _prep(r){
         r.full_name = truncate(r.full_name, 22);  
-        r.wtf = truncate(r.title+' @ '+r.organization_name, 32);
+        if (r.title){
+          r.wtf = truncate(r.title+' @ '+r.organization_name, 30);
+        } else {
+          r.wtf = truncate(r.organization_name, 30);
+        }
         var links = [];
         _.each(r.links,function(l,idx){
           console.log(l,idx);
-          var re = new RegExp('(twitter)|(github)');
+          var re = new RegExp('(twitter)|(github)|(linkedin)|(facebook)');
           if (l.url.match(re)){ links.push(l); } 
         });
         r.links = links;

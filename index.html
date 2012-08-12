@@ -23,14 +23,14 @@
     </div>
 
     <script id="search_view_template" type="text/template">
-      <div class="offset2 span9 margin_top">
+      <div class="offset1 span10 margin_top">
         <form id="search_form" class="form-horizontal form-search">
-          <input id="search" type="text" class="span8 search-query" placeholder="Instantly search hackers">
+          <input id="search" type="text" class="span10 search-query" placeholder="Instantly search for hackers, companies or tags">
         </form>
       </div>
     </script>
     <script id="result_view_template" type="text/template">
-      <div class="span6 margin_top result">
+      <div class="margin_top result well">
         <div class="left">
           <img width="100px" src="<%=photo_url%>" class="shadow">
         </div>
@@ -49,7 +49,7 @@
           <div style="display:inline-block;">
             <p>
             <% _.each(tags,function(t){ %> 
-              <%='&lt;'+t+'&gt;'%>
+              <%=t+' | '%>
             <% }); %>
             </p> 
           </div>

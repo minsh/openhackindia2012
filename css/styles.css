@@ -80,6 +80,11 @@
   margin-left:20px;
 }
 
+.result {
+ float:left; 
+ margin-left:10px
+}
+
 .result ul {
   list-style-type: none; 
   float:left;
@@ -89,9 +94,10 @@
 }
 .result li { 
   float: right; 
-  margin-right:5px;
+  margin-right:15px;
 }
 .result p {
+  font-size:18px;
   width:300px;
 }
 
