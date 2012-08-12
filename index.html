@@ -30,12 +30,29 @@
       </div>
     </script>
     <script id="result_view_template" type="text/template">
-      <div class="span6 margin_top">
+      <div class="span6 margin_top result">
         <div class="left">
           <img width="100px" src="<%=photo_url%>" class="shadow">
         </div>
         <div class="right">
           <h2><%=full_name%></h2>
+          <h3><%=wtf%></h3>
+          <ul>
+            <% _.each(links,function(l){ %> 
+              <li>
+                <a href="<%=l.url%>" target="_blanc">
+                  <img src="<%=l.favicon_url%>" width="50px">
+                </a>
+              </li> 
+            <% }); %>
+          </ul>
+          <div style="display:inline-block;">
+            <p>
+            <% _.each(tags,function(t){ %> 
+              <%='&lt;'+t+'&gt;'%>
+            <% }); %>
+            </p> 
+          </div>
         </div>
       </div>
     </script>
