@@ -13,11 +13,11 @@
     console.log("showing "+((partId*30)+window.partitionedResults[partId].length)+" results / "+ (((window.partitionedResults.length-1)*30)+window.partitionedResults[window.partitionedResults.length-1].length));
 
     function _prep(r){
-      r.full_name = truncate(r.full_name, 20);  
+      r.full_name = truncate(r.full_name, 18);  
       if (r.title){
-        r.wtf = truncate(truncate(r.title,20)+' @ '+r.organization_name, 30);
+        r.wtf = truncate(truncate(r.title,20)+' @ '+r.organization_name, 28);
       } else {
-        r.wtf = truncate(r.organization_name, 30);
+        r.wtf = truncate(r.organization_name, 28);
       }
 
       var idx = r.wtf.indexOf('@');
@@ -37,18 +37,35 @@
       r.links = links;
     }
 
+    var wasEmpty = !$('#results_entry').children().length;
+
     var len = results.length;
     for (var i=0; i<len; i+=2) {
       var r = results[i];
       _prep(r);
-      var $row = $('<div style="display:inline-block;">').append(resultTempl(results[i]));
+      $('#results_entry').append( resultTempl(r) );
       if (i+1<len) {
         var r = results[i+1];
         _prep(r);
-        $row.append(resultTempl(results[i+1]));
+        $('#results_entry').append( resultTempl(r) );
       } 
-      $('#results_entry').append( $row );
     } 
+
+    if (wasEmpty) {
+      $('#results_entry').masonry({
+        itemSelector : '.result'
+        , isAnimated:true
+        , gutterWidth:20
+        , isFitWith:true
+        , columnWidth:460
+      });
+    } else {
+      $('#results_entry').masonry('reload');
+    } 
+    $('#results_entry').imagesLoaded(function(){
+      console.log('imagesLoaded -------------- ');
+      $('#results_entry').masonry('reload');
+    });
   }
 
   window.app.SearchView = Backbone.View.extend({

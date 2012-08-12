@@ -82,7 +82,8 @@
 
 .result {
  float:left; 
- margin-left:10px
+ width:420px;
+ margin-bottom:20px;
 }
 
 .result ul {
