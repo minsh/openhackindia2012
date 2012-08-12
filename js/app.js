@@ -18,7 +18,7 @@
     , initialize: function(){
       showlog('router:initialize');
       /* Init views. */
-      this.searchView  = new window.app.SearchView({});
+      window.searchView  = new window.app.SearchView({});
     }
     , setFilter: function(param){
       showlog('router:setFilter', param);
@@ -26,11 +26,16 @@
       switch(param){
         default: { 
           showlog('router:search');
-          this.searchView.render();
+          window.searchView.render();
         }
       }
     }
   });
+
+  window.search = function(q){
+    $('#search').val(q);
+    window.searchView.onKey();
+  }
 
   /* Main entry point. */
 

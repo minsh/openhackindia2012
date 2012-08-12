@@ -78,7 +78,7 @@
       results = _.first(results,50);
 
       function _prep(r){
-        r.full_name = truncate(r.full_name, 22);  
+        r.full_name = truncate(r.full_name, 20);  
         if (r.title){
           r.wtf = truncate(r.title+' @ '+r.organization_name, 30);
         } else {
