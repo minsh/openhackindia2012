@@ -79,3 +79,19 @@
   display:table;
   margin-left:20px;
 }
+
+.result ul {
+  list-style-type: none; 
+  float:left;
+  margin-left:0;
+  margin-top:10px;
+  margin-left:10px;
+}
+.result li { 
+  float: right; 
+  margin-right:5px;
+}
+.result p {
+  width:300px;
+}
+

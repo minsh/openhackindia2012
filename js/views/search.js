@@ -48,12 +48,27 @@
       $results.empty();
       /* Trim results. */
       results = _.first(results,50);
+
+      function _prep(r){
+        r.full_name = truncate(r.full_name, 22);  
+        r.wtf = truncate(r.title+' @ '+r.organization_name, 32);
+        var links = [];
+        _.each(r.links,function(l,idx){
+          console.log(l,idx);
+          var re = new RegExp('(twitter)|(github)');
+          if (l.url.match(re)){ links.push(l); } 
+        });
+        r.links = links;
+      }
+
       var len = results.length;
       for (var i=0; i<len; i+=2) {
-        results[i].full_name = truncate(results[i].full_name, 20);  
+        var r = results[i];
+        _prep(r);
         var $row = $('<div style="display:inline-block;">').append(this.resultTempl(results[i]));
         if (i+1<len) {
-          results[i+1].full_name = truncate(results[i+1].full_name, 20);  
+          var r = results[i+1];
+          _prep(r);
           $row.append(this.resultTempl(results[i+1]));
         } 
         $results.append( $row );
