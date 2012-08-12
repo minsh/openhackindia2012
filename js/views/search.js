@@ -97,7 +97,10 @@
         _.each(r.links,function(l,idx){
           console.log(l,idx);
           var re = new RegExp('(twitter)|(github)|(linkedin)|(facebook)');
-          if (l.url.match(re)){ links.push(l); } 
+          if (l.url.match(re)){ 
+            
+            links.push(l); 
+          } 
         });
         r.links = links;
       }

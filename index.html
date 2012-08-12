@@ -48,10 +48,10 @@
           </ul>
           <div style="display:inline-block;">
             <p>
-            <% _.each(tags,function(t){ %> 
+            <% _.each(tags,function(t,idx){ %> 
               <a onclick='window.search("<%=t%>");'>
                 <%=t%>
-              </a> | 
+              </a><% if(idx<tags.length-1){ %> | <%}%> 
             <% }); %>
             </p> 
           </div>
@@ -61,6 +61,7 @@
     <script src="./js/vendor/underscore.js"></script>
     <script src="./js/vendor/jquery.js"></script>
     <script src="./js/vendor/backbone.js"></script>
+    <script src="./js/vendor/jquery.masonry.min.js"></script>
     <script src="./js/common.js"></script>
     <script src="./js/views/search.js"></script>
     <script src="./js/app.js"></script>
