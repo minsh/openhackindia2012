@@ -12,6 +12,7 @@
     , events : {
         'click      #search_btn'  : 'onClickSearchBtn' 
       , 'keyup  #search'      : 'onKey'
+      , 'submit form'           : 'submit'
     }
     , render : function(){
       showlog('SearchView:render');
@@ -23,6 +24,9 @@
       showlog('SearchView:onClickSearchBtn');
       return false;
     }
+    , submit : function(){
+      return false;
+    }
     , onKey: function(e){
       showlog('SearchView:onKey');   
       var q = $.trim( this.$search.val() );
@@ -32,22 +36,28 @@
         return false;
       }
       console.log('q',q);
-
       var results = [];
       var regEx = new RegExp(q, 'gi');
       _.each(window.hackers, function(h){
 
         if (h.full_name.match( regEx )) {
-          results.push(h);
+          results.push(_.clone(h));
         } 
       });
       
       $results.empty();
       /* Trim results. */
       results = _.first(results,50);
-      _.each(results, function(r){
-        $results.append( this.resultTempl(r) );
-      }, this);
+      var len = results.length;
+      for (var i=0; i<len; i+=2) {
+        results[i].full_name = truncate(results[i].full_name, 20);  
+        var $row = $('<div style="display:inline-block;">').append(this.resultTempl(results[i]));
+        if (i+1<len) {
+          results[i+1].full_name = truncate(results[i+1].full_name, 20);  
+          $row.append(this.resultTempl(results[i+1]));
+        } 
+        $results.append( $row );
+      } 
 
       return true;
     }
