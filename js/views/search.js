@@ -4,16 +4,25 @@
 
 
   window.htmlize = function(partId, results, resultTempl){
-    
+
     console.log("showing "+((partId*30)+window.partitionedResults[partId].length)+" results / "+ (((window.partitionedResults.length-1)*30)+window.partitionedResults[window.partitionedResults.length-1].length));
 
     function _prep(r){
       r.full_name = truncate(r.full_name, 20);  
       if (r.title){
-        r.wtf = truncate(r.title+' @ '+r.organization_name, 30);
+        r.wtf = truncate(truncate(r.title,20)+' @ '+r.organization_name, 30);
       } else {
         r.wtf = truncate(r.organization_name, 30);
       }
+
+      var idx = r.wtf.indexOf('@');
+      if (idx < 0) idx = -2;
+      r.wtf = r.wtf.slice(0,idx+2) + '<a onclick=\'window.search("'+r.organization_name+'")\'>' + r.wtf.slice(idx+2) + '</a>';
+      idx = r.wtf.indexOf('@');
+      if (idx >= 0) {
+        r.wtf = '<a onclick=\'window.search("'+r.title+'")\'>'+r.wtf.slice(0,idx-1)+'</a>'+r.wtf.slice(idx-1);
+      }       
+
       var links = [];
       _.each(r.links,function(l,idx){
         //console.log(l,idx);
