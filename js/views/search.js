@@ -2,6 +2,50 @@
   /* Namespace. */
   window.app = window.app || {};
 
+
+  window.htmlize = function(partId, results, resultTempl){
+
+    console.log("showing "+((partId*30)+window.partitionedResults[partId].length)+" results / "+ (((window.partitionedResults.length-1)*30)+window.partitionedResults[window.partitionedResults.length-1].length));
+
+    function _prep(r){
+      r.full_name = truncate(r.full_name, 20);  
+      if (r.title){
+        r.wtf = truncate(truncate(r.title,20)+' @ '+r.organization_name, 30);
+      } else {
+        r.wtf = truncate(r.organization_name, 30);
+      }
+
+      var idx = r.wtf.indexOf('@');
+      if (idx < 0) idx = -2;
+      r.wtf = r.wtf.slice(0,idx+2) + '<a onclick=\'window.search("'+r.organization_name+'")\'>' + r.wtf.slice(idx+2) + '</a>';
+      idx = r.wtf.indexOf('@');
+      if (idx >= 0) {
+        r.wtf = '<a onclick=\'window.search("'+r.title+'")\'>'+r.wtf.slice(0,idx-1)+'</a>'+r.wtf.slice(idx-1);
+      }       
+
+      var links = [];
+      _.each(r.links,function(l,idx){
+        //console.log(l,idx);
+        var re = new RegExp('(twitter)|(github)|(linkedin)|(facebook)');
+        if (l.url.match(re)){ links.push(l); } 
+      });
+      r.links = links;
+    }
+
+    var len = results.length;
+    for (var i=0; i<len; i+=2) {
+      var r = results[i];
+      _prep(r);
+      var $row = $('<div style="display:inline-block;">').append(resultTempl(results[i]));
+      if (i+1<len) {
+        var r = results[i+1];
+        _prep(r);
+        $row.append(resultTempl(results[i+1]));
+      } 
+      $('#results_entry').append( $row );
+    } 
+  }
+
   window.app.SearchView = Backbone.View.extend({
     el: '#search_entry'
     , initialize: function(){
@@ -29,6 +73,7 @@
     }
     , onKey: function(e){
       showlog('SearchView:onKey');   
+      window.scrollLoading = false;
       var q = $.trim( this.$search.val() );
       var $results = $('#results_entry');
       if (q===''||q===' ') {
@@ -38,7 +83,7 @@
       console.log('q',q);
       var tags = [];
       var companies = [];
-      var results = [];
+      var allResults = [];
       var resultsTags = [];
       var resultsCompanies = [];
       var regEx = new RegExp(q, 'gi');
@@ -59,7 +104,7 @@
       _.each(window.hackers, function(h){
         /* Search hacker names. */
         if (h.full_name.match( regEx )) {
-          results.push(_.clone(h));
+          allResults.push(_.clone(h));
         }
         /* Search hacker companies. */
         if(_.include(companies, h.organization_name)){
@@ -71,52 +116,24 @@
         }
       });
 
-      results = _.union(results, resultsTags, resultsCompanies);
+      allResults = _.union(allResults, resultsCompanies, resultsTags);
 
       $results.empty();
-      /* Trim results. */
-      results = _.first(results,50);
 
-      function _prep(r){
-        r.full_name = truncate(r.full_name, 20);  
-        if (r.title){
-          r.wtf = truncate(truncate(r.title,20)+' @ '+r.organization_name, 30);
-        } else {
-          r.wtf = truncate(r.organization_name, 30);
-        }
-   
-        var idx = r.wtf.indexOf('@');
-        if (idx < 0) idx = -2;
-        r.wtf = r.wtf.slice(0,idx+2) + '<a onclick=\'window.search("'+r.organization_name+'")\'>' + r.wtf.slice(idx+2) + '</a>';
-        idx = r.wtf.indexOf('@');
-        if (idx >= 0) {
-          r.wtf = '<a onclick=\'window.search("'+r.title+'")\'>'+r.wtf.slice(0,idx-1)+'</a>'+r.wtf.slice(idx-1);
-        }       
-
-        var links = [];
-        _.each(r.links,function(l,idx){
-          console.log(l,idx);
-          var re = new RegExp('(twitter)|(github)|(linkedin)|(facebook)');
-          if (l.url.match(re)){ 
-            
-            links.push(l); 
-          } 
-        });
-        r.links = links;
+      /* Partition results. */
+      var temp = [];
+      var partitionedResults = [];
+      while (allResults.length){
+        temp = _.first(allResults, 30);
+        partitionedResults.push(temp);
+        allResults = _.last(allResults, Math.max(allResults.length-30, 0))
       }
 
-      var len = results.length;
-      for (var i=0; i<len; i+=2) {
-        var r = results[i];
-        _prep(r);
-        var $row = $('<div style="display:inline-block;">').append(this.resultTempl(results[i]));
-        if (i+1<len) {
-          var r = results[i+1];
-          _prep(r);
-          $row.append(this.resultTempl(results[i+1]));
-        } 
-        $results.append( $row );
-      } 
+      window.partitionedResults = partitionedResults;
+      
+      /* Show first results. */
+      var results = _.clone(partitionedResults[0]);
+      htmlize(0,results, this.resultTempl);
 
       return true;
     }
