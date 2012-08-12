@@ -45,7 +45,6 @@
     window.tags = _.uniq(_.flatten(tagsArray));
     window.companies = _.uniq(_.flatten(companiesArray));
 
-
     window.app = new App();
     Backbone.history.start({root:'/'}); 
   });
