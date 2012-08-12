@@ -5,6 +5,11 @@
 
   window.htmlize = function(partId, results, resultTempl){
 
+    if (!results || !results.length){
+      $('#results_entry').empty();
+      $('#results_entry').append("no results found.");
+      return;
+    }
     console.log("showing "+((partId*30)+window.partitionedResults[partId].length)+" results / "+ (((window.partitionedResults.length-1)*30)+window.partitionedResults[window.partitionedResults.length-1].length));
 
     function _prep(r){
@@ -84,6 +89,7 @@
       var tags = [];
       var companies = [];
       var allResults = [];
+      var resultsTitles = [];
       var resultsTags = [];
       var resultsCompanies = [];
       var regEx = new RegExp(q, 'gi');
@@ -106,6 +112,10 @@
         if (h.full_name.match( regEx )) {
           allResults.push(_.clone(h));
         }
+        /* Search hacker titles. */
+        if (h.title && h.title.match( regEx )) {
+          resultsTitles.push(_.clone(h));
+        }
         /* Search hacker companies. */
         if(_.include(companies, h.organization_name)){
           resultsCompanies.push(_.clone(h));
@@ -116,7 +126,7 @@
         }
       });
 
-      allResults = _.union(allResults, resultsCompanies, resultsTags);
+      allResults = _.union(allResults, resultsTitles, resultsCompanies, resultsTags);
 
       $results.empty();
 
