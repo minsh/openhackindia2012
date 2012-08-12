@@ -54,7 +54,7 @@
     if (wasEmpty) {
       $('#results_entry').masonry({
         itemSelector : '.result'
-        , isAnimated:true
+        //, isAnimated:true
         , gutterWidth:20
         , isFitWith:true
         , columnWidth:460
