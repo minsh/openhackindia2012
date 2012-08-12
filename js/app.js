@@ -36,9 +36,19 @@
 
   $.getJSON("hackers.json", function(data) {
     window.hackers = data;
-    console.log(window.hackers);
+    var tagsArray = [];
+    var companiesArray = [];
+    _.each(hackers, function(v,k){
+      tagsArray.push(v.tags);
+      companiesArray.push(v.organization_name);
+    });
+    window.tags = _.uniq(_.flatten(tagsArray));
+    window.companies = _.uniq(_.flatten(companiesArray));
+
+
     window.app = new App();
     Backbone.history.start({root:'/'}); 
   });
+
 
 })();
