@@ -14,9 +14,10 @@
 
     function _prep(r){
       r.full_name = truncate(r.full_name, 18);  
+      r.wtf = '';
       if (r.title){
         r.wtf = truncate(truncate(r.title,20)+' @ '+r.organization_name, 28);
-      } else {
+      } else if (r.organization_name) {
         r.wtf = truncate(r.organization_name, 28);
       }
 
@@ -32,7 +33,11 @@
       _.each(r.links,function(l,idx){
         //console.log(l,idx);
         var re = new RegExp('(twitter)|(github)|(linkedin)|(facebook)');
-        if (l.url.match(re)){ links.push(l); } 
+        var match = l.url.match(re);
+        if (match){ 
+          console.log('match',match);  
+          links.push(l); 
+        } 
       });
       r.links = links;
     }
