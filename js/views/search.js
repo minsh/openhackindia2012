@@ -14,11 +14,14 @@
 
     function _prep(r){
       r.full_name = truncate(r.full_name, 18);  
+
       r.wtf = '';
-      if (r.title){
-        r.wtf = truncate(truncate(r.title,20)+' @ '+r.organization_name, 28);
+      if (r.title && r.organization_name){
+        r.wtf = truncate(r.title,18)+' @ '+truncate(r.organization_name, 15);
+      } else if (r.title) { 
+        r.wtf = truncate(r.title, 45);
       } else if (r.organization_name) {
-        r.wtf = truncate(r.organization_name, 28);
+        r.wtf = truncate(r.organization_name, 45);
       }
 
       var idx = r.wtf.indexOf('@');
@@ -126,23 +129,23 @@
       _.each(window.hackers, function(h){
         /* Search hacker names. */
         if (h.full_name.match( regEx )) {
-          allResults.push(_.clone(h));
+          allResults.push(h);
         }
         /* Search hacker titles. */
         if (h.title && h.title.match( regEx )) {
-          resultsTitles.push(_.clone(h));
+          resultsTitles.push(h);
         }
         /* Search hacker companies. */
         if(_.include(companies, h.organization_name)){
-          resultsCompanies.push(_.clone(h));
+          resultsCompanies.push(h);
         }
         /* Search hacker tags. */
         if(!_.isEmpty(_.intersection(tags, h.tags))){
-          resultsTags.push(_.clone(h));
+          resultsTags.push(h);
         }
       });
 
-      allResults = _.union(allResults, resultsTitles, resultsCompanies, resultsTags);
+      allResults = _.clone(_.uniq(_.union(allResults, resultsTitles, resultsCompanies, resultsTags)));
 
       $results.empty();
 
