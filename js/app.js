@@ -38,7 +38,7 @@ window.scrollLoading = false;
     }
   });
 
-  window.search = function(q){
+  window.search = function(q){
     $('#search').val(q);
     window.searchView.onKey();
   }
