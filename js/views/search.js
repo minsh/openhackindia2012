@@ -34,8 +34,8 @@
         //console.log(l,idx);
         var re = new RegExp('(twitter)|(github)|(linkedin)|(facebook)');
         var match = l.url.match(re);
-        if (match){ 
-          console.log('match',match);  
+        if (!_.isEmpty(match)){ 
+          l.favicon_url='./images/'+match[0]+'.png';
           links.push(l); 
         } 
       });
@@ -68,7 +68,6 @@
       $('#results_entry').masonry('reload');
     } 
     $('#results_entry').imagesLoaded(function(){
-      console.log('imagesLoaded -------------- ');
       $('#results_entry').masonry('reload');
     });
   }
@@ -81,8 +80,7 @@
       this.resultTempl = _.template( $('#result_view_template').html() );
     } 
     , events : {
-        'click      #search_btn'  : 'onClickSearchBtn' 
-      , 'keyup  #search'      : 'onKey'
+        'keyup  #search'      : 'onKey'
       , 'submit form'           : 'submit'
     }
     , render : function(){
@@ -91,25 +89,21 @@
       this.$search = this.$('#search');
       return this;
     }
-    , onClickSearchBtn  : function(e){
-      showlog('SearchView:onClickSearchBtn');
-      return false;
-    }
     , submit : function(){
       return false;
     }
     , onKey: function(e){
       showlog('SearchView:onKey');   
-      window.scrollLoading = false;
+      window.scrollLoading = false;
       var q = $.trim( this.$search.val() );
       var $results = $('#results_entry');
       if (q===''||q===' ') {
         $results.empty();
         return false;
       }
-      console.log('q',q);
+      //console.log('q',q);
       var tags = [];
-      var companies = [];
+      var companies = [];
       var allResults = [];
       var resultsTitles = [];
       var resultsTags = [];
@@ -118,7 +112,7 @@
 
       /* Search companies. */
       _.each(window.companies, function(c){
-        if (c && c.match( regEx )) {
+        if (c && c.match( regEx )) {
           companies.push(_.clone(c));
         } 
       });
@@ -148,7 +142,7 @@
         }
       });
 
-      allResults = _.union(allResults, resultsTitles, resultsCompanies, resultsTags);
+      allResults = _.union(allResults, resultsTitles, resultsCompanies, resultsTags);
 
       $results.empty();
 
@@ -156,9 +150,9 @@
       var temp = [];
       var partitionedResults = [];
       while (allResults.length){
-        temp = _.first(allResults, 30);
+        temp = _.first(allResults, 30);
         partitionedResults.push(temp);
-        allResults = _.last(allResults, Math.max(allResults.length-30, 0))
+        allResults = _.last(allResults, Math.max(allResults.length-30, 0))
       }
 
       window.partitionedResults = partitionedResults;
