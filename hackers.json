@@ -13294,9 +13294,16 @@
          "Karnataka",
          "Bangalore",
          "Android",
+         "Web",
          "Hacker"
       ],
-      "links": []
+      "links": [
+         {
+            "title": "Pradeep Pati (galuano1) on Twitter",
+            "url": "http://twitter.com/galuano1",
+            "favicon_url": "http://a0.pathable.com/links/41048/favicon-1342628535.png?1342628535"
+         }
+      ]
    },
    "115776": {
       "full_name": "rana mani pratap",
